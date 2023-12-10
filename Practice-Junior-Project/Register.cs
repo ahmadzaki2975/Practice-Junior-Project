@@ -33,6 +33,18 @@ namespace Practice_Junior_Project
             //MessageBox.Show(username + "\n" + password);
 
             conn = new NpgsqlConnection(connString);
+
+            if(username == "" || password == "")
+            {
+                MessageBox.Show("Username or password cannot be empty", "Error");
+                return;
+            }
+
+            if(username.Length < 4 || password.Length < 4)
+            {
+                MessageBox.Show("Username or password must be at least 4 characters long", "Error");
+                return;
+            }
             
             try
             {
