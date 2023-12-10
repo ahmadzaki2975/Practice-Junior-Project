@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -36,12 +37,38 @@ namespace Practice_Junior_Project
             try
             {
                 conn.Open();
-                conn.Close();
-                MessageBox.Show("Connection successful");
+                string sql = "SELECT register_user(@in_username, @in_password) AS http_status_code;";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+
+                // Add params
+                cmd.Parameters.AddWithValue("@in_username", username);
+                cmd.Parameters.AddWithValue("@in_password", password);
+                int httpStatusCode = (int)cmd.ExecuteScalar();
+
+                if (httpStatusCode == 201)
+                {
+                    MessageBox.Show("User registered successfully");
+                }
+                else if (httpStatusCode == 409)
+                {
+                    MessageBox.Show("Username already exists");
+                }
+                else if (httpStatusCode == 500)
+                {
+                    MessageBox.Show("An error occurred during registration");
+                }
+                else
+                {
+                    MessageBox.Show("Unknown error code");
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
             }
             
         }
