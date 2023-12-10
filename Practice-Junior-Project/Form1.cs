@@ -1,3 +1,5 @@
+using RestSharp;
+
 namespace Practice_Junior_Project
 {
     public partial class Form1 : Form
@@ -22,13 +24,25 @@ namespace Practice_Junior_Project
             }
             else
             {
-                MessageBox.Show("Login failed");
+
             }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             Login();
+        }
+
+        private void btnToRegister_Click(object sender, EventArgs e)
+        {
+            Register register = new Register();
+            register.Show();
+            //Close();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            
         }
     }
 }

@@ -34,6 +34,7 @@
             tbUsername = new TextBox();
             tbPassword = new TextBox();
             btnLogin = new Button();
+            btnToRegister = new Button();
             SuspendLayout();
             // 
             // label1
@@ -87,11 +88,22 @@
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
             // 
+            // btnToRegister
+            // 
+            btnToRegister.Location = new Point(101, 122);
+            btnToRegister.Name = "btnToRegister";
+            btnToRegister.Size = new Size(75, 23);
+            btnToRegister.TabIndex = 6;
+            btnToRegister.Text = "To Register";
+            btnToRegister.UseVisualStyleBackColor = true;
+            btnToRegister.Click += btnToRegister_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnToRegister);
             Controls.Add(btnLogin);
             Controls.Add(tbPassword);
             Controls.Add(tbUsername);
@@ -100,6 +112,7 @@
             Controls.Add(label1);
             Name = "Form1";
             Text = "Form1";
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -113,5 +126,6 @@
         private TextBox tbUsername;
         private TextBox tbPassword;
         private Button btnLogin;
+        private Button btnToRegister;
     }
 }
