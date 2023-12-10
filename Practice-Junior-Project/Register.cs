@@ -16,9 +16,11 @@ namespace Practice_Junior_Project
     {
         private NpgsqlConnection conn;
         private string connString = "Host=localhost;Port=5433;Username=postgres;Password=postgres;Database=postgres";
-        public Register()
+        private Form1 form1;
+        public Register(Form1 form1)
         {
             InitializeComponent();
+            this.form1 = form1;
         }
 
         private void Register_Load(object sender, EventArgs e)
@@ -34,18 +36,18 @@ namespace Practice_Junior_Project
 
             conn = new NpgsqlConnection(connString);
 
-            if(username == "" || password == "")
+            if (username == "" || password == "")
             {
                 MessageBox.Show("Username or password cannot be empty", "Error");
                 return;
             }
 
-            if(username.Length < 4 || password.Length < 4)
+            if (username.Length < 4 || password.Length < 4)
             {
                 MessageBox.Show("Username or password must be at least 4 characters long", "Error");
                 return;
             }
-            
+
             try
             {
                 conn.Open();
@@ -82,12 +84,18 @@ namespace Practice_Junior_Project
             {
                 conn.Close();
             }
-            
+
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
             RegisterUser();
+        }
+
+        private void btnToLogin_Click(object sender, EventArgs e)
+        {
+            Close();
+            form1.Show();
         }
     }
 }
