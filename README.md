@@ -77,3 +77,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+#### 2. Delete User
+```
+CREATE or REPLACE FUNCTION delete_user(
+	in_username text
+)
+RETURNS integer as $$
+BEGIN
+	IF EXISTS (
+		SELECT 1
+		FROM users
+		WHERE username = in_username
+	)
+	THEN 
+		DELETE FROM users
+		WHERE username = in_username;
+		RETURN 200; -- Deletion success
+	ELSE
+		RETURN 404; -- User not found
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+```
