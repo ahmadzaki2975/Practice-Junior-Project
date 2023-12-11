@@ -50,3 +50,30 @@ EXCEPTION
 END;
 $$ LANGUAGE plpgsql;
 ```
+
+## Grid View Project
+### SQL Functions
+#### 1. Update User
+```
+CREATE or REPLACE FUNCTION edit_user(
+	in_username text,
+	in_password text
+)
+RETURNS integer AS $$
+BEGIN
+	IF EXISTS (
+		SELECT 1 
+		FROM users
+		WHERE username = in_username
+	)
+	THEN
+		UPDATE users
+		SET password = in_password
+		WHERE username = in_username;
+		RETURN 200; -- Update success
+	ELSE 
+		RETURN 404; -- User not found
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+```
