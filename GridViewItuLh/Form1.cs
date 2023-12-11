@@ -59,6 +59,7 @@ namespace GridViewItuLh
                 if (statusCode == 201)
                 {
                     MessageBox.Show("Insert user success");
+                    LoadData();
                 }
                 else if (statusCode == 401)
                 {
@@ -103,6 +104,7 @@ namespace GridViewItuLh
                 if (statusCode == 200)
                 {
                     MessageBox.Show("Update data success", "Success");
+                    LoadData();
                 }
                 else
                 {
@@ -113,8 +115,48 @@ namespace GridViewItuLh
             {
                 MessageBox.Show(ex.Message, "Error");
             }
+            finally
+            {
+                conn.Close();
+            }
         }
 
+        private void DeleteData()
+        {
+            if (row == null)
+            {
+                MessageBox.Show("Select row to delete");
+            }
+            try
+            {
+                string username = row.Cells["username"].Value.ToString();
+                conn = new NpgsqlConnection(connString);
+                string sql = "SELECT * FROM delete_user(@in_username)";
+
+                conn.Open();
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@in_username", username);
+
+                int statusCode = (int)cmd.ExecuteScalar();
+                if (statusCode == 200)
+                {
+                    MessageBox.Show($"Deleted user with username {username}", "Success");
+                    LoadData();
+                }
+                else if (statusCode == 404)
+                {
+                    throw new Exception("User not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -144,6 +186,11 @@ namespace GridViewItuLh
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             UpdateData();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteData();
         }
     }
 }
