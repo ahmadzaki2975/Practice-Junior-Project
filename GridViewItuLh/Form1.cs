@@ -17,8 +17,7 @@ namespace GridViewItuLh
         public DataTable dt;
         private DataGridViewRow row;
 
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void LoadData()
         {
             try
             {
@@ -40,29 +39,7 @@ namespace GridViewItuLh
             }
         }
 
-        private void btnLoadData_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                conn = new NpgsqlConnection(connString);
-                conn.Open();
-                string sql = "SELECT * FROM users;";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-                dt = new DataTable();
-                dt.Load(cmd.ExecuteReader());
-                dataGridView1.DataSource = dt;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
-        private void btnInsert_Click(object sender, EventArgs e)
+        private void InsertData()
         {
             string username = tbPassword.Text;
             string password = tbPassword.Text;
@@ -102,14 +79,71 @@ namespace GridViewItuLh
             }
         }
 
+        private void UpdateData()
+        {
+            if (row == null)
+            {
+                MessageBox.Show("Select a row to edit");
+                return;
+            }
+            string username = row.Cells["username"].Value.ToString();
+            string password = tbPassword.Text;
+            try
+            {
+                conn = new NpgsqlConnection(connString);
+                conn.Open();
+                string sql = "SELECT * FROM edit_user(@in_username, @in_password)";
+
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@in_username", username);
+                cmd.Parameters.AddWithValue("@in_password", password);
+
+                int statusCode = (int)cmd.ExecuteScalar();
+
+                if (statusCode == 200)
+                {
+                    MessageBox.Show("Update data success", "Success");
+                }
+                else
+                {
+                    throw new Exception("User not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void btnLoadData_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            InsertData();
+        }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
                 row = dataGridView1.Rows[e.RowIndex];
                 tbUsername.Text = row.Cells["username"].Value.ToString();
                 tbPassword.Text = row.Cells["password"].Value.ToString();
             }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            UpdateData();
         }
     }
 }
