@@ -91,13 +91,24 @@ namespace GridViewItuLh
                 {
                     throw new Exception("An error occured");
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
             }
             finally
             {
                 conn.Close();
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex >= 0)
+            {
+                row = dataGridView1.Rows[e.RowIndex];
+                tbUsername.Text = row.Cells["username"].Value.ToString();
+                tbPassword.Text = row.Cells["password"].Value.ToString();
             }
         }
     }

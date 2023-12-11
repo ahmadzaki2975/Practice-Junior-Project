@@ -129,6 +129,7 @@
             dataGridView1.RowTemplate.Height = 25;
             dataGridView1.Size = new Size(776, 302);
             dataGridView1.TabIndex = 9;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             // 
             // Form1
             // 
