@@ -65,15 +65,11 @@ namespace Practice_Junior_Project
                 }
                 else if (httpStatusCode == 409)
                 {
-                    MessageBox.Show("Username already exists");
+                    throw new Exception("Username already exists");
                 }
                 else if (httpStatusCode == 500)
                 {
-                    MessageBox.Show("An error occurred during registration");
-                }
-                else
-                {
-                    MessageBox.Show("Unknown error code");
+                    throw new Exception("An error occurred during registration");
                 }
             }
             catch (Exception ex)
