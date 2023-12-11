@@ -38,6 +38,7 @@
             btnDelete = new Button();
             btnLoadData = new Button();
             dataGridView1 = new DataGridView();
+            btnGenerateQR = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -133,11 +134,22 @@
             dataGridView1.TabIndex = 9;
             dataGridView1.CellClick += dataGridView1_CellClick;
             // 
+            // btnGenerateQR
+            // 
+            btnGenerateQR.Location = new Point(642, 52);
+            btnGenerateQR.Name = "btnGenerateQR";
+            btnGenerateQR.Size = new Size(95, 53);
+            btnGenerateQR.TabIndex = 10;
+            btnGenerateQR.Text = "Generate QR";
+            btnGenerateQR.UseVisualStyleBackColor = true;
+            btnGenerateQR.Click += btnGenerateQR_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnGenerateQR);
             Controls.Add(dataGridView1);
             Controls.Add(btnLoadData);
             Controls.Add(btnDelete);
@@ -168,5 +180,6 @@
         private Button btnDelete;
         private Button btnLoadData;
         private DataGridView dataGridView1;
+        private Button btnGenerateQR;
     }
 }

@@ -17,6 +17,8 @@ namespace GridViewItuLh
         public DataTable dt;
         private DataGridViewRow row;
 
+        public DataGridViewRow Row { get => row; set => row = value; }
+
         private void LoadData()
         {
             try
@@ -43,6 +45,12 @@ namespace GridViewItuLh
         {
             string username = tbPassword.Text;
             string password = tbPassword.Text;
+
+            if(username == "" || password == "")
+            {
+                MessageBox.Show("Enter username and password");
+                return;
+            }
 
             try
             {
@@ -82,12 +90,12 @@ namespace GridViewItuLh
 
         private void UpdateData()
         {
-            if (row == null)
+            if (Row == null)
             {
                 MessageBox.Show("Select a row to edit");
                 return;
             }
-            string username = row.Cells["username"].Value.ToString();
+            string username = Row.Cells["username"].Value.ToString();
             string password = tbPassword.Text;
             try
             {
@@ -123,13 +131,13 @@ namespace GridViewItuLh
 
         private void DeleteData()
         {
-            if (row == null)
+            if (Row == null)
             {
                 MessageBox.Show("Select row to delete");
             }
             try
             {
-                string username = row.Cells["username"].Value.ToString();
+                string username = Row.Cells["username"].Value.ToString();
                 conn = new NpgsqlConnection(connString);
                 string sql = "SELECT * FROM delete_user(@in_username)";
 
@@ -177,9 +185,9 @@ namespace GridViewItuLh
         {
             if (e.RowIndex >= 0)
             {
-                row = dataGridView1.Rows[e.RowIndex];
-                tbUsername.Text = row.Cells["username"].Value.ToString();
-                tbPassword.Text = row.Cells["password"].Value.ToString();
+                Row = dataGridView1.Rows[e.RowIndex];
+                tbUsername.Text = Row.Cells["username"].Value.ToString();
+                tbPassword.Text = Row.Cells["password"].Value.ToString();
             }
         }
 
@@ -191,6 +199,17 @@ namespace GridViewItuLh
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DeleteData();
+        }
+
+        private void btnGenerateQR_Click(object sender, EventArgs e)
+        {
+            if(row == null)
+            {
+                MessageBox.Show("Select data to generate QR", "Info");
+                return;
+            }
+            Form2 form2 = new Form2(this);
+            form2.Show();
         }
     }
 }
