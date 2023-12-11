@@ -1,6 +1,7 @@
 # Practice-Junior-Project
  
-## SQL Procedures
+## Main Project
+### SQL Functions
 #### 1. Register User
 ```
 CREATE OR REPLACE FUNCTION register_user(
