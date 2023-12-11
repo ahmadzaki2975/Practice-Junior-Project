@@ -20,7 +20,24 @@ namespace GridViewItuLh
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                conn = new NpgsqlConnection(connString);
+                conn.Open();
+                string sql = "SELECT * FROM users;";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+                dataGridView1.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
 
         private void btnLoadData_Click(object sender, EventArgs e)
